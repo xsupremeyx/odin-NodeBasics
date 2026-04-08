@@ -1,49 +1,34 @@
-import http from 'node:http'
-import fs from 'node:fs'
-import url from 'node:url'
+const express = require('express')
 
-const server = http.createServer((req,res) => {
-    res.setHeader('Content-Type','text/html')
-    const { pathname } = new URL(req.url, 'http://localhost:8080')
-    let path = './docs/'
-    switch(pathname){
-        case '/':
-            path += 'index.html'
-            res.statusCode = 200
-            break;
-        
-        case '/about':
-            path += 'about.html'
-            res.statusCode = 200
-            break;
-        
-        case '/contact-me':
-            path += 'contact-me.html'
-            res.statusCode = 200
-            break;
-        
-        case '/contact':
-            res.statusCode = 301
-            res.setHeader('Location', '/contact-me')
-            res.end()
-            return;
-        
-        default:
-            path += '404.html'
-            res.statusCode = 404
-            break;
+const app = express()
+const path = './docs/'
+
+
+app.get('/', (req, res) => {
+    res.sendFile(path + 'index.html', { root: __dirname})
+})
+
+app.get('/about', (req, res) => {
+    res.sendFile(path + 'about.html', { root: __dirname})
+})
+
+app.get('/contact-me', (req, res) => {
+    res.sendFile(path + 'contact-me.html', { root: __dirname})
+})
+
+app.get('/contact', (req, res) => {
+    res.redirect('/contact-me')
+})
+
+app.use((req, res) => {
+    res.status(404).sendFile(path + '404.html', { root: __dirname})
+})
+
+const PORT = 8080
+
+app.listen(PORT, (error) => {
+    if (error) {
+        throw error;
     }
-
-    fs.readFile(path, (err,data) => {
-        if(err){
-            console.log(err)
-            res.statusCode = 500
-            return res.end('Server Error')
-        }
-        res.end(data)
-    })
-})
-
-server.listen(8080, 'localhost' ,() => {
-    console.log('Server is listening at http://localhost:8080')
-})
+    console.log(`My First Express App - listening on port ${PORT}`);
+});
