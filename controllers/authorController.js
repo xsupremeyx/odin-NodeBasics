@@ -7,8 +7,8 @@ async function getAuthorById(req, res){
         if(!author){
             res.status(404).send('Author not found');
             return;
-        res.send(`Author Name: ${author.name}`);
         }
+        res.send(`Author Name: ${author.name}`);
     }
     catch (error) {
         console.error("Error fetching author:", error);
