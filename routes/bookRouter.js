@@ -3,21 +3,14 @@ const { Router } = require("express");
 
 const bookRouter = Router();
 
+const { getBookById, getReservedBookById, setReservedBookById } = require('../controllers/bookController')
+
 bookRouter.get("/", (req, res) => res.send("All books"));
 
-bookRouter.get("/:bookId", (req, res) => {
-  const { bookId } = req.params;
-  res.send(`Book ID: ${bookId}`);
-});
+bookRouter.get("/:bookId", getBookById);
 
-bookRouter.get("/:bookId/reserve", (req, res) => {
-  const { bookId } = req.params;
-  res.send(`Book GET Reserved ID: ${bookId}`);
-});
+bookRouter.get("/:bookId/reserve", getReservedBookById);
 
-bookRouter.post("/:bookId/reserve", (req,res) => {
-    const { bookId } = req.params;
-    res.send(`Book POST Reserved ID: ${bookId}`);
-})
+bookRouter.post("/:bookId/reserve", setReservedBookById);
 
 module.exports = bookRouter;
