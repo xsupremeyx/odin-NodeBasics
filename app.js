@@ -1,6 +1,14 @@
 const express = require('express')
 const app = express()
+const path = require("node:path")
 
+// EJS imports and static css import
+app.set("views", path.join(__dirname,"views"))
+app.set("view engine", "ejs")
+const assetsPath = path.join(__dirname, "public")
+app.use(express.static(assetsPath))
+
+// Routers imports
 const authorRouter = require('./routes/authorRouter')
 const bookRouter = require('./routes/bookRouter')
 const indexRouter = require('./routes/indexRouter')
