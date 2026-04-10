@@ -1,0 +1,8 @@
+<footer>
+    <p>My Odin Node Website</p>
+    <ul>
+        <% links.forEach(link => { %>
+            <li><a href="<%= link.path %>"><%= link.name %></a></li>
+        <% }) %>
+    </ul>
+</footer>
